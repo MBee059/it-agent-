@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 formatted_dataset 
 *.json 
 *.jsonl 
 __pycache__/ 
+=======
+it-agent-env/
+venv/
+>>>>>>> 21ab12a90b80f69d456bbcdc4ad2251c22e2465e
