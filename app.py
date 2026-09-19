@@ -12,12 +12,13 @@ def respond(message, history, num_docs, disable_adapter):
     )
     return model_response, "\n\n".join(retrieved_sources)
 
-with gr.Blocks(theme=gr.themes.Soft(), title="Grounded RAG IT Support Agent") as demo:
+# Create Blocks without deprecated title parameter
+with gr.Blocks(theme=gr.themes.Soft()) as demo:
     gr.Markdown("# Grounded RAG IT Support Agent\n**Architecture:** Qwen2.5-7B (Unsloth) + FAISS Vector Retrieval")
     with gr.Row():
         with gr.Column(scale=2):
-            # Explicitly set type='messages' for Gradio 4/5 compatibility
-            chatbot = gr.Chatbot(height=450, type="messages")
+            # Removed type="messages" for Gradio 6 compatibility
+            chatbot = gr.Chatbot(height=450)
             msg = gr.Textbox(placeholder="Describe your IT issue...", label="User Query")
             with gr.Row():
                 submit_btn = gr.Button("Send", variant="primary")
@@ -28,7 +29,7 @@ with gr.Blocks(theme=gr.themes.Soft(), title="Grounded RAG IT Support Agent") as
             disable_adapter = gr.Checkbox(value=True, label="Disable LoRA Adapter (Grounded Mode)")
             sources_box = gr.Textbox(label="Retrieved Context Documents", interactive=False, lines=10)
 
-    # Handlers using modern dict-based message format
+    # Handlers using messages format
     def user_submit(user_message, history):
         history = history or []
         history.append({"role": "user", "content": user_message})
@@ -49,4 +50,4 @@ with gr.Blocks(theme=gr.themes.Soft(), title="Grounded RAG IT Support Agent") as
     clear_btn.click(lambda: [], None, chatbot, queue=False)
 
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(app_title="Grounded RAG IT Support Agent", share=True)
